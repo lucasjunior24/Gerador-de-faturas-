@@ -1,17 +1,38 @@
 from tkinter import *
+from tkinter import ttk
 
 window = Tk()
 
-window.geometry('800x600')
+window.geometry('820x600')
 window.title('Gerar faturamento')
+
+################## VARIAVEIS DE LOGIN #####################
 
 usernameVar = StringVar()
 passwordVar = StringVar()
 
+##########3####### VARIAVEIS MAIN WINDOW ##################
+
 options = ["Banana", "Arroz", "Feijão"]
 itemVariable = StringVar()
-itemVariable.set = (options[0])
+itemVariable.set(options[0])
 quantVar = StringVar()
+
+
+itemRate = 1
+rateVar = StringVar()
+rateVar.set("%.2f" % itemRate)
+costVar = StringVar()
+
+################ VARIAVEIS DE ADD ITENS #####################
+
+addItemNameVar = StringVar()
+addItemTaxaVar = StringVar()
+addItemTipoVar = StringVar()
+addItemArmazVar = StringVar()
+
+
+billsTV = ttk.Treeview(height=15, column=("Prod nome", "Quantidade", "Valor"))
 
 
 def adminLogin():
@@ -61,6 +82,25 @@ def mainWindow():
     itemDropDown = OptionMenu(window, itemVariable, *options)
     itemDropDown.grid(row=2, column=1, padx=(10, 0), pady=(10, 0))
 
+#########################################################################################
+
+    rateLabel = Label(window, text='Taxa:', font='Arial 10')
+    rateLabel.grid(row=1, column=2, padx=(10, 0), pady=(10, 0))
+
+    rateValue = Label(window, textvariable=rateVar)
+    rateValue.grid(row=1, column=3, padx=(10, 0), pady=(10, 0))
+
+#########################################################################################
+
+    costLabel = Label(window, text='Valor:', font='Arial 10')
+    costLabel.grid(row=3, column=2, padx=(5, 0), pady=(10, 0))
+
+    costEntry = Entry(window, textvariable=costVar)
+    costEntry.grid(row=3, column=3, padx=(5, 0), pady=(10, 0))
+
+
+#########################################################################################
+
     quantLabel = Label(window, text='Quantidade:', font='Arial 10')
     quantLabel.grid(row=2, column=2, padx=(5, 0), pady=(10, 0))
 
@@ -72,6 +112,21 @@ def mainWindow():
 
 ###########################################################################
 
+    billLabel = Label(window, text='Lista de Produtos:', font='Arial 15')
+    billLabel.grid(row=4, column=2)
+
+    billsTV.grid(row=5, column=0, columnspan=5, padx=(10, 0))
+
+    scrollBar = Scrollbar(window, orient='vertical', command=billsTV.yview)
+    scrollBar.grid(row=5, column=4, sticky="NSE")
+
+    billsTV.configure(yscrollcommand=scrollBar.set)
+
+    billsTV.heading("#0", text="Nome Prod")
+    billsTV.heading("#1", text="Taxa")
+    billsTV.heading("#2", text="Quantidade")
+    billsTV.heading("#3", text="Valor")
+
 
 def addItem():
 
@@ -82,15 +137,35 @@ def addItem():
     itemNomeLabel = Label(window, text='Nome:', font='Arial 10')
     itemNomeLabel.grid(row=1, column=1, pady=(10, 0))
 
+    itemNomeEntry = Entry(window, textvariable=addItemNameVar)
+    itemNomeEntry.grid(row=1, column=2, pady=(10, 0))
+
     itemTaxaLabel = Label(window, text='Taxa Produto:', font='Arial 10')
     itemTaxaLabel.grid(row=1, column=3, pady=(10, 0))
+
+    itemTaxaEntry = Entry(window, textvariable=addItemTaxaVar)
+    itemTaxaEntry.grid(row=1, column=4, pady=(10, 0))
 
     itemTipoLabel = Label(window, text='Tipo Produto:', font='Arial 10')
     itemTipoLabel.grid(row=2, column=1, pady=(10, 0))
 
+    itemTipoEntry = Entry(window, textvariable=addItemTipoVar)
+    itemTipoEntry.grid(row=2, column=2, pady=(10, 0))
+
     armazeLabel = Label(window, text='Armazenamento:', font='Arial 10')
     armazeLabel.grid(row=2, column=3, pady=(10, 0))
 
+    itemArmazEntry = Entry(window, textvariable=addItemArmazVar)
+    itemArmazEntry.grid(row=2, column=4, pady=(10, 0))
+
+    addItemButton = Button(window, text='Add Item:', font='Arial 10')
+    addItemButton.grid(row=3, column=3, padx=(5, 0), pady=(10, 0))
+
+
+addItemNameVar = StringVar()
+addItemTaxaVar = StringVar()
+addItemTipoVar = StringVar()
+addItemArmazVar = StringVar()
 
 mainWindow()
 
